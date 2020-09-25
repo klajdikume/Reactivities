@@ -25,6 +25,7 @@ namespace API.Controllers
         {
             var values = await _context.Values.ToListAsync();
 
+
             return Ok(values);
         }
 
