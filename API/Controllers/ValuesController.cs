@@ -21,22 +21,19 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Value>>> Get()
+        public async Task<ActionResult<IEnumerable<Activity>>> Get()
         {
-            var values = await _context.Values.ToListAsync();
-
+            var values = await _context.Activities.ToListAsync();
 
             return Ok(values);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Value>> Get(int id)
+        public async Task<ActionResult<Activity>> Get(Guid id)
         {
-            var value = await _context.Values.SingleOrDefaultAsync(i => i.Id == id);
+            var value = await _context.Activities.FindAsync(id);
             
             return Ok(value);
         }
-
-
     }
 }
