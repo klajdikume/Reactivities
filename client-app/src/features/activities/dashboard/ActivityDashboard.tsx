@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { SyntheticEvent } from 'react'
 import { Grid, GridColumn } from 'semantic-ui-react'
 import { IActivity } from '../../../app/models/activity'
 import { ActivityDetails } from '../details/ActivityDetails'
@@ -14,18 +14,27 @@ interface IProps {
     setSelectedActivity: (activity: IActivity | null) => void;
     createActivity: (activity: IActivity) => void;
     editActivity: (activity: IActivity) => void;
-    deleteActivity: (id: string) => void;
+    deleteActivity: (event: SyntheticEvent<HTMLButtonElement>, id: string) => void;
+    submitting: boolean;
+    target: string;
 }
 
 export const ActivityDashboard: React.FC<IProps> = ({
     activities, selectActivity, selectedActivity, editMode, setEditMode,
-    setSelectedActivity, createActivity, editActivity, deleteActivity
+    setSelectedActivity, createActivity, editActivity, deleteActivity,
+    submitting, target
 }) => {
     return (
         <Grid>
             <GridColumn width={10}>
                 
-                <ActivityList activities={activities}  selectActivity={selectActivity} deleteActivity={deleteActivity}/>
+                <ActivityList 
+                    activities={activities}  
+                    selectActivity={selectActivity} 
+                    deleteActivity={deleteActivity}
+                    submitting={submitting}
+                    target={target}
+                />
                 {/* <List>
                     {activities.map((activity: any) => (
                         <List.Item key={activity.id}>{activity.title}</List.Item>
@@ -41,7 +50,9 @@ export const ActivityDashboard: React.FC<IProps> = ({
                     <ActivityForm 
                         key={selectedActivity && selectedActivity.id || 0}
                         setEditMode={setEditMode} activity={selectedActivity!} 
-                        createActivity={createActivity} editActivity={editActivity}/>
+                        createActivity={createActivity} editActivity={editActivity}
+                        submitting={submitting}
+                    />
                 )}
             </Grid.Column>
         </Grid>
