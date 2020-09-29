@@ -1,5 +1,4 @@
 import axios, { AxiosResponse } from 'axios';
-import { resolve } from 'dns';
 import { IActivity } from '../models/activity';
 
 // api calls
