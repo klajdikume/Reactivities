@@ -32,6 +32,11 @@ namespace API.Controllers
         public async Task<ActionResult<Activity>> Get(Guid id)
         {
             var value = await _context.Activities.FindAsync(id);
+
+            if (value == null)
+            {
+                return NotFound();
+            }
             
             return Ok(value);
         }
