@@ -2,8 +2,8 @@ import axios, { AxiosResponse } from 'axios';
 import { IActivity } from '../models/activity';
 import { history } from '../..';
 import { toast } from 'react-toastify';
-// api calls
 
+// api calls
 axios.defaults.baseURL = 'http://localhost:5000/api';
 
 axios.interceptors.response.use(undefined, error => {

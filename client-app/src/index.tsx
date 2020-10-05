@@ -7,6 +7,7 @@ import App from './app/layout/App';
 import ScrollToTop from './app/layout/ScrollToTop';
 import './app/layout/styles.css';
 import * as serviceWorker from './serviceWorker';
+import dateFnsLocalizer from 'react-widgets-date-fns';
 
 export const history = createBrowserHistory();
 
