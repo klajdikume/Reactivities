@@ -1,5 +1,7 @@
 import { observable, action, computed, configure, runInAction } from "mobx";
 import { createContext, SyntheticEvent } from "react";
+import { toast } from "react-toastify";
+import { history } from "../..";
 import agent from "../api/agent";
 import { IActivity } from "../models/activity";
 
@@ -38,7 +40,7 @@ class ActivityStore {
             runInAction('loading activities', () => {
                 activities.forEach((activity) => {
                     activity.date = new Date(activity.date);
-                    this.actitvityRegistry.set(activity.id, activity);
+                    
                 });
             });
 
@@ -56,6 +58,7 @@ class ActivityStore {
         let activity = this.getActivity(id);
         if (activity) {
             this.activity = activity;
+            return activity;
         } else {
             this.loadingInitial = true;
             try {
@@ -64,8 +67,10 @@ class ActivityStore {
                     
                     activity.date = new Date(activity.date);
                     this.activity = activity;
+                    this.actitvityRegistry.set(activity.id, activity);
                     this.loadingInitial = false;
                 })
+                return activity;
             } catch (error) {
                 runInAction('get activity error', () => {
                     this.loadingInitial = false;
@@ -93,12 +98,17 @@ class ActivityStore {
                 this.actitvityRegistry.set(activity.id, activity);
                 this.submitting = false;
             });
+            
+            history.push(`/activities/${activity.id}`);
 
         } catch (error) {
             runInAction('creating activity error', () => {
                 this.submitting = false;
-            })
-            console.log(error);
+            });
+            
+            toast.error('Problem submitting data');
+            
+            console.log(error.response);
         }
     }
     
@@ -112,8 +122,8 @@ class ActivityStore {
                 this.actitvityRegistry.set(activity.id, activity);
                 this.activity = activity;
                 this.submitting = false;
-            })
-
+            });
+            history.push(`/activities/${activity.id}`);
         } catch (error) {
             runInAction('editing activity error', () => {
                 this.submitting = false;
